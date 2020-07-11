@@ -19,7 +19,7 @@ function gameCheck(){
 count=1;
 amount=0;
 function gameUnderCondition(){
-for (( i=0; i<20; i++ ))
+for (( day=0; day<20; day++ ))
 do
 	totalAmount=100;
 	while [ $count -gt 0 ]
@@ -34,6 +34,12 @@ do
 		((count++))
 	done
 done
+	if [ $amount -ge $(($startAmount*$day)) ]
+	then
+		echo "won the game"
+	else
+		echo "lost the game"
+	fi
 	echo "total amount for 20 days : $amount"
 }
 gameUnderCondition
