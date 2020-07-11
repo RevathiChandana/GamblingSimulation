@@ -19,10 +19,6 @@ function gameCheck(){
 
 count=1;
 totalAmount=100;
-luckiestDay=0;
-unLuckiestDay=0;
-highAmount=$startAmount;
-lowAmount=$startAmount;
 function gameUnderCondition(){
 for (( day=1; day<=20; day++ ))
 do
@@ -47,21 +43,10 @@ do
 		fi
 		((count++))
 	done
-	if [ $highAmount -lt $totalAmount ]
-	then
-		luckiestDay=$day;
-		highAmount=$totalAmount;
-	elif [ $lowAmount -gt $totalAmount ]
-	then
-		lowAmount=$totalAmount;
-		unLuckiestDay=$day;
-	fi
 	startAmount=$totalAmount;
 done
 }
 gameUnderCondition
 echo "list of winning days ${winningDays[@]}"
 echo "list of loosing days ${lossingDays[@]}"
-echo "luckiestday : $luckiestDay and amount : $highAmount"
-echo "unLuckiestDay : $unLuckiestDay and amount :$lowAmount"
 
