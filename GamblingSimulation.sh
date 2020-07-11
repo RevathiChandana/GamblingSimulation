@@ -2,7 +2,8 @@
 echo "===========Gambling simulation Problem==========="
 startAmount=100;
 betAmount=1;
-
+declare -a winningDays;
+declare -a lossingDays;
 function gameCheck(){
 	if [ $(($RANDOM%2)) -eq 1 ]
 	then
@@ -18,28 +19,36 @@ function gameCheck(){
 
 count=1;
 amount=0;
+totalAmount=100;
 function gameUnderCondition(){
-for (( day=0; day<20; day++ ))
+for (( day=1; day<=20; day++ ))
 do
-	totalAmount=100;
+	echo "day $day the person start with $startAmount"
 	while [ $count -gt 0 ]
 	do
 		gameCheck;
-		if [[ $totalAmount -eq $(($startAmount/2)) || $totalAmount -eq $(($startAmount+$((startAmount/2)))) ]]
+		if [[ $totalAmount -eq 0 ]]
 		then
-			echo "total amount per day : $totalAmount"
-			amount=$(($amount+$totalAmount));
+         echo "the Person lost all the money and he quit the game"
+			exit;
+		elif [[ $totalAmount -eq $(($startAmount/2)) ]]
+		then
+			echo "day $day	total amount : $totalAmount"
+			lossingDays[$day]=$day;
+			break;
+		elif [[ $totalAmount -eq $(($startAmount+$(($startAmount/2)))) ]]
+		then
+			echo "day $day	total amount : $totalAmount"
+			winningDays[$day]=$day;
 			break;
 		fi
 		((count++))
 	done
+	startAmount=$totalAmount;
 done
-	if [ $amount -ge $(($startAmount*$day)) ]
-	then
-		echo "won the game"
-	else
-		echo "lost the game"
-	fi
-	echo "total amount for 20 days : $amount"
 }
 gameUnderCondition
+echo "list of winning days ${winningDays[@]}"
+echo "list of loosing days ${lossingDays[@]}"
+
+
