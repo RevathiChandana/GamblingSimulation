@@ -24,9 +24,9 @@ unLuckiestDay=0;
 highAmount=$startAmount;
 lowAmount=$startAmount;
 function gameUnderCondition(){
-for (( day=1; day<=20; day++ ))
+for (( day=1; day<=10; day++ ))
 do
-	echo "day $day the person start with $startAmount"
+	#echo "day $day the person start with $startAmount"
 	while [ $count -gt 0 ]
 	do
 		gameCheck;
@@ -36,12 +36,12 @@ do
 			exit;
 		elif [[ $totalAmount -eq $(($startAmount/2)) ]]
 		then
-			echo "day $day	total amount : $totalAmount"
+			echo "day $day	-	start amount : $startAmount	-	50%Lost	-	total amount : $totalAmount"
 			lossingDays[$day]=$day;
 			break;
 		elif [[ $totalAmount -eq $(($startAmount+$(($startAmount/2)))) ]]
 		then
-			echo "day $day	total amount : $totalAmount"
+			echo "day $day	-	start amount : $startAmount	-	50%profit-	total amount : $totalAmount"
 			winningDays[$day]=$day;
 			break;
 		fi
@@ -58,10 +58,28 @@ do
 	fi
 	startAmount=$totalAmount;
 done
-}
-gameUnderCondition
 echo "list of winning days ${winningDays[@]}"
 echo "list of loosing days ${lossingDays[@]}"
 echo "luckiestday : $luckiestDay and amount : $highAmount"
 echo "unLuckiestDay : $unLuckiestDay and amount :$lowAmount"
-
+}
+gameUnderCondition
+function toContinue(){
+	if [ $totalAmount -ge 100 ]
+	then
+		echo "won the game"
+		echo "he starts with 100 and at end of the month he has $totalAmount"
+		read -p "if the person like to continue for next month press 1 or press 0	" ans
+		case $ans in
+			1)	echo "he want to start again";startAmount=100;totalAmount=100;
+				gameUnderCondition;
+				toContinue;;
+			0)	exit;;
+			*) echo "u have entered wrong "
+		esac
+	else
+		echo "lost the game";
+		echo "he starts with 100 and at the end of the month he has $totalAmount ";
+	fi
+}
+toContinue
