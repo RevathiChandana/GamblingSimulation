@@ -1,45 +1,42 @@
 #! /bin/bash
 echo "===========Gambling simulation Problem==========="
-startAmount=100;
-betAmount=1;
+START_AMOUNT=100;
+BET_AMOUNT=1;
 
 function gameCheck(){
 	if [ $(($RANDOM%2)) -eq 1 ]
 	then
-		#echo "won the game."
-		totalAmount=$(($totalAmount+$betAmount));
-		#echo "Total amount : $totalAmount "
+		totalAmount=$(($totalAmount+$BET_AMOUNT));
 	else
-		#echo "lose the game."
-		totalAmount=$(($totalAmount-$betAmount));
-		#echo "Total amount : $totalAmount "
+		totalAmount=$(($totalAmount-$BET_AMOUNT));
 	fi
 }
 
-count=1;
-amount=0;
+COUNT=1;
+AMOUNT=0;
+NUM_OF_DAYS=20
 function gameUnderCondition(){
-for (( day=0; day<20; day++ ))
-do
-	totalAmount=100;
-	while [ $count -gt 0 ]
+	for (( day=0; day<NUM_OF_DAYS; day++ ))
 	do
-		gameCheck;
-		if [[ $totalAmount -eq $(($startAmount/2)) || $totalAmount -eq $(($startAmount+$((startAmount/2)))) ]]
-		then
-			echo "total amount per day : $totalAmount"
-			amount=$(($amount+$totalAmount));
-			break;
-		fi
-		((count++))
+		totalAmount=$START_AMOUNT;
+		while [ $COUNT -gt 0 ]
+		do
+			gameCheck;
+			if [[ $totalAmount -eq $(($START_AMOUNT/2)) || $totalAmount -eq $(($START_AMOUNT+$(($START_AMOUNT/2)))) ]]
+			then
+				echo "total amount per day : $totalAmount"
+				AMOUNT=$(($AMOUNT+$totalAmount));
+				break;
+			fi
+			((COUNT++))
+		done
 	done
-done
-	if [ $amount -ge $(($startAmount*$day)) ]
+	if [ $AMOUNT -ge $(($START_AMOUNT*$day)) ]
 	then
 		echo "won the game"
 	else
 		echo "lost the game"
 	fi
-	echo "total amount for 20 days : $amount"
+		echo "total amount for 20 days : $AMOUNT"
 }
 gameUnderCondition
