@@ -1,4 +1,4 @@
 #! /bin/bash
 echo "===========Gambling simulation Problem==========="
-startAmount=100;
-betAmount=1;
+START_AMOUNT=100;
+BET_AMOUNT=1;
